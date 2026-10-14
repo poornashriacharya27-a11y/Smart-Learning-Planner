@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Progress Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f6ef;
+            color: #354b38;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: auto;
+            padding: 35px 25px 60px;
+        }
+
+        .back-link {
+            color: #71866a;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .dashboard-header {
+            margin: 35px 0;
+        }
+
+        .dashboard-header small {
+            letter-spacing: 3px;
+            color: #71866a;
+            font-weight: bold;
+        }
+
+        .dashboard-header h1 {
+            font-family: Georgia, serif;
+            font-size: 38px;
+            margin: 12px 0;
+        }
+
+        .dashboard-header p {
+            color: #777b70;
+            line-height: 1.7;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card,
+        .panel {
+            background: #fffef9;
+            border: 1px solid #e5e5d8;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(65, 83, 59, 0.04);
+        }
+
+        .stat-card .icon {
+            font-size: 28px;
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            font-weight: normal;
+            color: #777b70;
+            margin: 18px 0 8px;
+        }
+
+        .stat-card .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #354b38;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .panel h2 {
+            font-family: Georgia, serif;
+            font-size: 23px;
+            margin-top: 0;
+        }
+
+        .panel-description {
+            font-size: 14px;
+            color: #777b70;
+            line-height: 1.7;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 260px;
+            margin-top: 20px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .goal-number {
+            font-size: 38px;
+            font-weight: bold;
+            margin: 25px 0 8px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 12px;
+            background: #e9e9dc;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #71866a;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .goal-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d9dfd0;
+            border-radius: 8px;
+            background: white;
+            color: #354b38;
+            font-size: 14px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 18px;
+            background: #71866a;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #52694e;
+        }
+
+        .task-form {
+            display: grid;
+            grid-template-columns: 1fr 150px auto;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .task-list {
+            margin-top: 20px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e9e9dc;
+        }
+
+        .task-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #71866a;
+            cursor: pointer;
+        }
+
+        .task-name {
+            flex: 1;
+            overflow-wrap: anywhere;
+        }
+
+        .task-name.completed {
+            text-decoration: line-through;
+            color: #92978c;
+        }
+
+        .delete-task {
+            padding: 7px 10px;
+            background: #eee8df;
+            color: #705c50;
+        }
+
+        .empty-message {
+            color: #85897e;
+            font-size: 14px;
+            padding: 20px 0;
+        }
+
+        .study-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .notice {
+            font-size: 13px;
+            color: #777b70;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 850px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .dashboard {
+                padding: 25px 15px;
+            }
+
+            .dashboard-header h1 {
+                font-size: 30px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .stat-card,
+            .panel {
+                padding: 18px;
+            }
+
+            .stat-card .number {
+                font-size: 25px;
+            }
+
+            .task-form,
+            .study-form {
+                grid-template-columns: 1fr;
+            }
+
+            .goal-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="dashboard">
+
+        <a href="index.html" class="back-link">
+            ← Back to Home
+        </a>
+
+        <header class="dashboard-header">
+            <small>YOUR PERSONAL LEARNING SPACE</small>
+
+            <h1>Study Progress Dashboard 🌿</h1>
+
+            <p>
+                Every small step counts. Track your study time,
+                celebrate your achievements, and keep growing.
+            </p>
+        </header>
+
+        <!-- STATISTICS -->
+        <section class="stats-grid">
+
+            <article class="stat-card">
+                <div class="icon">⏱️</div>
+                <h3>Total Study Hours</h3>
+                <div class="number" id="totalHours">0h</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="icon">✅</div>
+                <h3>Completed Tasks</h3>
+                <div class="number" id="completedTasks">0</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="icon">📝</div>
+                <h3>Pending Tasks</h3>
+                <div class="number" id="pendingTasks">0</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="icon">🎯</div>
+                <h3>Task Completion</h3>
+                <div class="number" id="completionRate">0%</div>
+            </article>
+
+        </section>
+
+        <!-- CHART AND GOAL -->
+        <section class="dashboard-grid">
+
+            <article class="panel">
+
+                <h2>Your Weekly Study Activity</h2>
+
+                <p class="panel-description">
+                    See how many minutes you have studied each day
+                    during the current week.
+                </p>
+
+                <div class="chart-container">
+                    <canvas id="studyChart"
+                        role="img"
+                        aria-label="Bar chart showing study minutes for each day this week">
+                    </canvas>
+                </div>
+
+            </article>
+
+            <article class="panel">
+
+                <h2>Daily Study Goal 🎯</h2>
+
+                <p class="panel-description">
+                    Set a daily target and work towards it at your own pace.
+                </p>
+
+                <div class="goal-number">
+                    <span id="todayMinutes">0</span>
+                    <span style="font-size: 17px; font-weight: normal;">
+                        / <span id="goalMinutes">120</span> minutes
+                    </span>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="goalProgress"></div>
+                </div>
+
+                <p id="goalMessage" class="panel-description">
+                    Your next step starts here.
+                </p>
+
+                <form class="goal-form" id="goalForm">
+
+                    <input
+                        type="number"
+                        id="goalInput"
+                        min="1"
+                        max="1440"
+                        value="120"
+                        required
+                        aria-label="Daily study goal in minutes"
+                    >
+
+                    <button type="submit">Set Goal</button>
+
+                </form>
+
+            </article>
+
+        </section>
+
+        <!-- STUDY TIME ENTRY -->
+        <section class="panel" style="margin-bottom: 25px;">
+
+            <h2>Record Your Study Time 📚</h2>
+
+            <p class="panel-description">
+                Add your completed study time to update your dashboard.
+            </p>
+
+            <form class="study-form" id="studyForm">
+
+                <input
+                    type="date"
+                    id="studyDate"
+                    required
+                    aria-label="Study date"
+                >
+
+                <input
+                    type="number"
+                    id="studyMinutes"
+                    min="1"
+                    max="1440"
+                    placeholder="Minutes studied"
+                    required
+                    aria-label="Minutes studied"
+                >
+
+                <button type="submit">Add Study Time</button>
+
+            </form>
+
+            <p class="notice">
+                Your study records are saved in this browser on this device.
+            </p>
+
+        </section>
+
+        <!-- TASK TRACKER -->
+        <section class="panel">
+
+            <h2>My Study Tasks ✅</h2>
+
+            <p class="panel-description">
+                Add tasks, mark completed work, and keep track of what's left.
+            </p>
+
+            <form class="task-form" id="taskForm">
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Example: Complete Python practice"
+                    maxlength="120"
+                    required
+                    aria-label="New study task"
+                >
+
+                <select id="taskPriority" aria-label="Task priority">
+                    <option value="Normal">Normal Priority</option>
+                    <option value="High">High Priority</option>
+                    <option value="Low">Low Priority</option>
+                </select>
+
+                <button type="submit">Add Task</button>
+
+            </form>
+
+            <div class="task-list" id="taskList"></div>
+
+            <p class="notice">
+                Note: Tasks entered here are currently managed separately
+                from the Daily Task Tracker page.
+            </p>
+
+        </section>
+
+    </main>
+
+    <script>
+        const STORAGE_KEY = "smartPlannerProgressV1";
+
+        const today = new Date();
+
+        function localDateString(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+
+            return `${year}-${month}-${day}`;
+        }
+
+        function loadData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+
+                if (saved) {
+                    const data = JSON.parse(saved);
+
+                    if (
+                        data &&
+                        typeof data === "object" &&
+                        Array.isArray(data.studyRecords) &&
+                        Array.isArray(data.tasks)
+                    ) {
+                        return {
+                            goal: Number.isFinite(data.goal) && data.goal > 0
+                                ? data.goal
+                                : 120,
+
+                            studyRecords: data.studyRecords.filter(record =>
+                                record &&
+                                typeof record.date === "string" &&
+                                Number.isFinite(record.minutes) &&
+                                record.minutes > 0
+                            ),
+
+                            tasks: data.tasks.filter(task =>
+                                task &&
+                                typeof task.name === "string" &&
+                                typeof task.completed === "boolean"
+                            )
+                        };
+                    }
+                }
+            } catch (error) {
+                console.error("Could not load dashboard data:", error);
+            }
+
+            return {
+                goal: 120,
+                studyRecords: [],
+                tasks: []
+            };
+        }
+
+        let data = loadData();
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (error) {
+                alert("Your browser could not save the data. Check browser storage settings.");
+            }
+        }
+
+        const totalHours = document.getElementById("totalHours");
+        const completedTasks = document.getElementById("completedTasks");
+        const pendingTasks = document.getElementById("pendingTasks");
+        const completionRate = document.getElementById("completionRate");
+
+        const todayMinutes = document.getElementById("todayMinutes");
+        const goalMinutes = document.getElementById("goalMinutes");
+        const goalProgress = document.getElementById("goalProgress");
+        const goalMessage = document.getElementById("goalMessage");
+
+        const taskList = document.getElementById("taskList");
+        const chart = document.getElementById("studyChart");
+
+        document.getElementById("studyDate").value = localDateString(today);
+
+        function getMinutesForDate(dateString) {
+            return data.studyRecords
+                .filter(record => record.date === dateString)
+                .reduce((sum, record) => sum + record.minutes, 0);
+        }
+
+        function renderStatistics() {
+            const totalMinutes = data.studyRecords.reduce(
+                (sum, record) => sum + record.minutes,
+                0
+            );
+
+            const completed = data.tasks.filter(task => task.completed).length;
+            const pending = data.tasks.length - completed;
+
+            totalHours.textContent =
+                `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`;
+
+            completedTasks.textContent = completed;
+            pendingTasks.textContent = pending;
+
+            const rate = data.tasks.length
+                ? Math.round((completed / data.tasks.length) * 100)
+                : 0;
+
+            completionRate.textContent = `${rate}%`;
+
+            const minutesToday = getMinutesForDate(localDateString(today));
+
+            todayMinutes.textContent = minutesToday;
+            goalMinutes.textContent = data.goal;
+
+            const percent = Math.min(
+                100,
+                Math.round((minutesToday / data.goal) * 100)
+            );
+
+            goalProgress.style.width = `${percent}%`;
+
+            if (minutesToday >= data.goal) {
+                goalMessage.textContent =
+                    "Wonderful! You've reached your daily study goal. 🌷";
+            } else {
+                goalMessage.textContent =
+                    `${data.goal - minutesToday} more minutes to reach your daily goal.`;
+            }
+
+            document.getElementById("goalInput").value = data.goal;
+        }
+
+        function renderTasks() {
+            taskList.innerHTML = "";
+
+            if (data.tasks.length === 0) {
+                const empty = document.createElement("p");
+
+                empty.className = "empty-message";
+                empty.textContent =
+                    "No study tasks yet. Add your first task above! 🌱";
+
+                taskList.appendChild(empty);
+                return;
+            }
+
+            data.tasks.forEach((task, index) => {
+                const row = document.createElement("div");
+                row.className = "task-item";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = task.completed;
+                checkbox.setAttribute(
+                    "aria-label",
+                    `Mark ${task.name} as completed`
+                );
+
+                checkbox.addEventListener("change", () => {
+                    data.tasks[index].completed = checkbox.checked;
+
+                    saveData();
+                    renderTasks();
+                    renderStatistics();
+                });
+
+                const name = document.createElement("span");
+                name.className = "task-name";
+
+                if (task.completed) {
+                    name.classList.add("completed");
+                }
+
+                name.textContent = task.name;
+
+                const priority = document.createElement("small");
+                priority.textContent = task.priority || "Normal";
+                priority.style.color =
+                    task.priority === "High" ? "#9b5b4a" : "#71866a";
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "delete-task";
+                deleteButton.textContent = "Delete";
+                deleteButton.setAttribute(
+                    "aria-label",
+                    `Delete ${task.name}`
+                );
+
+                deleteButton.addEventListener("click", () => {
+                    data.tasks.splice(index, 1);
+
+                    saveData();
+                    renderTasks();
+                    renderStatistics();
+                });
+
+                row.append(checkbox, name, priority, deleteButton);
+                taskList.appendChild(row);
+            });
+        }
+
+        function drawChart() {
+            const context = chart.getContext("2d");
+
+            if (!context) return;
+
+            const rect = chart.getBoundingClientRect();
+
+            if (!rect.width || !rect.height) return;
+
+            const pixelRatio = window.devicePixelRatio || 1;
+
+            chart.width = rect.width * pixelRatio;
+            chart.height = rect.height * pixelRatio;
+
+            context.scale(pixelRatio, pixelRatio);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            context.clearRect(0, 0, width, height);
+
+            const chartLeft = 38;
+            const chartRight = 12;
+            const chartTop = 18;
+            const chartBottom = 38;
+
+            const plotWidth = width - chartLeft - chartRight;
+            const plotHeight = height - chartTop - chartBottom;
+
+            const days = [];
+
+            for (let offset = 6; offset >= 0; offset--) {
+                const date = new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    today.getDate() - offset
+                );
+
+                days.push({
+                    date: localDateString(date),
+                    label: date.toLocaleDateString("en", {
+                        weekday: "short"
+                    })
+                });
+            }
+
+            const values = days.map(day => getMinutesForDate(day.date));
+
+            const maxValue = Math.max(60, ...values);
+            const scaleMax = Math.ceil(maxValue / 30) * 30;
+
+            context.font = "11px Arial";
+            context.textAlign = "right";
+            context.textBaseline = "middle";
+
+            for (let line = 0; line <= 4; line++) {
+                const value = (scaleMax / 4) * line;
+                const y = chartTop + plotHeight - (line / 4) * plotHeight;
+
+                context.beginPath();
+                context.strokeStyle = "#e8e8dd";
+                context.lineWidth = 1;
+                context.moveTo(chartLeft, y);
+                context.lineTo(width - chartRight, y);
+                context.stroke();
+
+                context.fillStyle = "#777b70";
+                context.fillText(
+                    `${Math.round(value)}m`,
+                    chartLeft - 8,
+                    y
+                );
+            }
+
+            const slotWidth = plotWidth / days.length;
+            const barWidth = Math.min(30, slotWidth * 0.55);
+
+            days.forEach((day, index) => {
+                const barHeight = (values[index] / scaleMax) * plotHeight;
+
+                const x =
+                    chartLeft +
+                    index * slotWidth +
+                    (slotWidth - barWidth) / 2;
+
+                const y = chartTop + plotHeight - barHeight;
+
+                context.fillStyle = "#71866a";
+
+                context.beginPath();
+
+                if (typeof context.roundRect === "function") {
+                    context.roundRect(
+                        x,
+                        y,
+                        barWidth,
+                        Math.max(0, barHeight),
+                        [5, 5, 0, 0]
+                    );
+                } else {
+                    context.rect(
+                        x,
+                        y,
+                        barWidth,
+                        Math.max(0, barHeight)
+                    );
+                }
+
+                context.fill();
+
+                context.fillStyle = "#777b70";
+                context.textAlign = "center";
+                context.textBaseline = "top";
+
+                context.fillText(
+                    day.label,
+                    x + barWidth / 2,
+                    chartTop + plotHeight + 10
+                );
+            });
+        }
+
+        document.getElementById("goalForm").addEventListener(
+            "submit",
+            function(event) {
+                event.preventDefault();
+
+                const goal = Number(
+                    document.getElementById("goalInput").value
+                );
+
+                if (!Number.isFinite(goal) || goal < 1 || goal > 1440) {
+                    alert("Please enter a goal between 1 and 1440 minutes.");
+                    return;
+                }
+
+                data.goal = goal;
+
+                saveData();
+                renderStatistics();
+            }
+        );
+
+        document.getElementById("studyForm").addEventListener(
+            "submit",
+            function(event) {
+                event.preventDefault();
+
+                const date = document.getElementById("studyDate").value;
+                const minutes = Number(
+                    document.getElementById("studyMinutes").value
+                );
+
+                if (
+                    !date ||
+                    !Number.isFinite(minutes) ||
+                    minutes < 1 ||
+                    minutes > 1440
+                ) {
+                    alert("Enter a valid date and study duration.");
+                    return;
+                }
+
+                if (date > localDateString(today)) {
+                    alert("Please select today or an earlier date.");
+                    return;
+                }
+
+                data.studyRecords.push({
+                    date: date,
+                    minutes: minutes
+                });
+
+                saveData();
+
+                document.getElementById("studyMinutes").value = "";
+
+                renderStatistics();
+                drawChart();
+            }
+        );
+
+        document.getElementById("taskForm").addEventListener(
+            "submit",
+            function(event) {
+                event.preventDefault();
+
+                const name = document.getElementById("taskInput")
+                    .value.trim();
+
+                const priority = document.getElementById("taskPriority")
+                    .value;
+
+                if (!name) return;
+
+                data.tasks.push({
+                    name: name,
+                    priority: priority,
+                    completed: false
+                });
+
+                saveData();
+
+                document.getElementById("taskInput").value = "";
+
+                renderTasks();
+                renderStatistics();
+            }
+        );
+
+        window.addEventListener("resize", drawChart);
+
+        renderStatistics();
+        renderTasks();
+        drawChart();
+    </script>
+
+</body>
+</html>

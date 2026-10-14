@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Daily Study Tasks | Smart Learning Planner</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+
+            <div class="logo">
+                Smart<span>Study</span>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="setup.html">Study Planner</a></li>
+                <li><a href="tasks.html" aria-current="page">Daily Tasks</a></li>
+            </ul>
+
+        </nav>
+    </header>
+
+
+    <!-- Daily Tasks Section -->
+    <main class="tasks-section">
+
+        <div class="tasks-container">
+
+            <p class="welcome-text">YOUR DAILY LEARNING JOURNEY</p>
+
+            <h1>My Study Tasks 📚</h1>
+
+            <p class="tasks-description">
+                Small steps every day lead to big achievements.
+                Complete your tasks and track your progress!
+            </p>
+
+
+            <!-- Add Task Form -->
+            <form id="taskForm" class="task-form">
+
+                <label for="taskInput" class="visually-hidden">
+                    Enter a study task
+                </label>
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Enter a study task..."
+                    maxlength="200"
+                    required
+                >
+
+                <button type="submit" class="start-button">
+                    + Add Task
+                </button>
+
+            </form>
+
+
+            <!-- Progress Section -->
+            <div class="progress-card">
+
+                <h2>Today's Progress 🌱</h2>
+
+                <p id="progressText">
+                    0 of 0 tasks completed
+                </p>
+
+                <div class="progress-track">
+                    <div
+                        id="progressBar"
+                        class="progress-fill"
+                        role="progressbar"
+                        aria-label="Study task completion"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="0">
+                    </div>
+                </div>
+
+                <p id="progressPercentage">0% completed</p>
+
+            </div>
+
+
+            <!-- Task List -->
+            <ul id="taskList" class="task-list"></ul>
+
+            <!-- Messages -->
+            <p id="taskMessage" aria-live="polite"></p>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with care for your learning journey 🌱</p>
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="js/tasks.js"></script>
+
+</body>
+
+</html>

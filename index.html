@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartStudy | Your Personal Learning Planner</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
+
+<style>
+    /* ========================================
+       SMARTSTUDY — AESTHETIC HOMEPAGE
+       Sage Green • Cream • Botanical
+    ======================================== */
+
+    :root {
+        --cream: #f8f7f1;
+        --white: #fffefa;
+        --sage: #71866d;
+        --sage-dark: #425846;
+        --sage-light: #e9eee4;
+        --green-border: #d5dfd0;
+        --text: #354638;
+        --muted: #788174;
+        --serif: "Playfair Display", Georgia, serif;
+        --sans: "DM Sans", Arial, sans-serif;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 90px;
+        max-width: 100%;
+    }
+
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        background: var(--cream) !important;
+        color: var(--text);
+        font-family: var(--sans);
+        line-height: 1.7;
+    }
+
+    body, h1, h2, h3, p, ul {
+        margin-top: 0;
+    }
+
+    a {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    /* NAVIGATION */
+
+    .ss-navbar {
+        width: 100%;
+        padding: 18px 7%;
+        min-height: 78px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        background: rgba(248, 247, 241, 0.97);
+        border-bottom: 1px solid var(--green-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .ss-logo {
+        color: var(--sage-dark);
+        font-family: var(--serif);
+        font-size: 25px;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .ss-logo span {
+        color: var(--sage);
+        font-style: italic;
+    }
+
+    .ss-nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 25px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .ss-nav-links a {
+        color: var(--text);
+        font-size: 13px;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .ss-nav-links a:hover {
+        color: var(--sage);
+    }
+
+    .ss-nav-cta {
+        display: inline-block;
+        padding: 10px 17px;
+        background: var(--sage-dark);
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    /* HERO SECTION */
+
+    .ss-hero {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        align-items: center;
+        gap: 55px;
+        padding: 75px 8%;
+        background: var(--cream);
+    }
+
+    .ss-eyebrow {
+        color: var(--sage);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    .ss-hero h1 {
+        font-family: var(--serif);
+        font-size: clamp(42px, 5vw, 67px);
+        font-weight: 500;
+        line-height: 1.16;
+        letter-spacing: -1.5px;
+        color: var(--sage-dark);
+        margin-bottom: 23px;
+    }
+
+    .ss-hero h1 span {
+        color: var(--sage);
+        font-style: italic;
+    }
+
+    .ss-hero-description {
+        max-width: 480px;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.95;
+        margin-bottom: 30px;
+    }
+
+    .ss-primary-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 22px;
+        border: 1px solid var(--sage-dark);
+        border-radius: 8px;
+        background: var(--sage-dark);
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+        transition: all 0.25s ease;
+    }
+
+    .ss-primary-btn:hover {
+        background: transparent;
+        color: var(--sage-dark);
+    }
+
+    .ss-hero-note {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 24px;
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    .ss-hero-note span {
+        color: var(--sage);
+        font-size: 17px;
+    }
+
+    .ss-hero-image-wrap {
+        position: relative;
+        padding: 12px;
+        border: 1px solid #cbd8c4;
+        border-radius: 48% 48% 15px 15px;
+    }
+
+    .ss-hero-image {
+        width: 100%;
+        height: 420px;
+        display: block;
+        object-fit: cover;
+        border-radius: 48% 48% 10px 10px;
+    }
+
+    .ss-image-caption {
+        position: absolute;
+        right: -16px;
+        bottom: 35px;
+        max-width: 210px;
+        padding: 15px 19px;
+        background: var(--white);
+        border: 1px solid var(--green-border);
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(53, 70, 56, 0.08);
+    }
+
+    .ss-image-caption strong {
+        display: block;
+        font-family: var(--serif);
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .ss-image-caption span {
+        color: var(--muted);
+        font-size: 11px;
+    }
+
+    /* DECORATIVE DIVIDER */
+
+    .ss-divider {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 86%;
+        margin: 0 auto;
+        color: var(--sage);
+        font-size: 14px;
+    }
+
+    .ss-divider::before,
+    .ss-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--green-border);
+    }
+
+    /* COMMON SECTION HEADINGS */
+
+    .ss-section {
+        padding: 75px 8%;
+    }
+
+    .ss-section-heading {
+        max-width: 650px;
+        margin: 0 auto 42px;
+        text-align: center;
+    }
+
+    .ss-section-label {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--sage);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+
+    .ss-section-heading h2 {
+        margin-bottom: 15px;
+        color: var(--sage-dark);
+        font-family: var(--serif);
+        font-size: clamp(30px, 4vw, 42px);
+        font-weight: 500;
+        line-height: 1.3;
+    }
+
+    .ss-section-heading p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.9;
+    }
+
+    /* SIX MAIN FEATURE CARDS */
+
+    .ss-features-section {
+        padding-top: 65px;
+        padding-bottom: 85px;
+        background: #f1f2e9;
+        border-top: 1px solid var(--green-border);
+        border-bottom: 1px solid var(--green-border);
+    }
+
+    .ss-feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 23px;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .ss-feature-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+        padding: 27px 25px;
+        background: var(--white);
+        border: 1px solid var(--green-border);
+        border-radius: 13px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease,
+                    border-color 0.25s ease;
+    }
+
+    .ss-feature-card:hover {
+        transform: translateY(-5px);
+        border-color: #9eaf98;
+        box-shadow: 0 14px 30px rgba(53, 70, 56, 0.07);
+    }
+
+    .ss-feature-top {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+    }
+
+    .ss-feature-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        border: 1px solid #d8e1d1;
+        border-radius: 12px;
+        background: var(--sage-light);
+        font-size: 25px;
+    }
+
+    .ss-feature-number {
+        color: #a6b49e;
+        font-family: var(--serif);
+        font-size: 22px;
+    }
+
+    .ss-feature-card h3 {
+        margin-bottom: 10px;
+        color: var(--sage-dark);
+        font-family: var(--serif);
+        font-size: 21px;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+
+    .ss-feature-card p {
+        margin-bottom: 23px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.85;
+    }
+
+    .ss-feature-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: auto;
+        padding: 10px 14px;
+        border: 1px solid var(--green-border);
+        border-radius: 7px;
+        color: var(--sage-dark);
+        background: transparent;
+        font-family: var(--sans);
+        font-size: 12px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .ss-feature-btn:hover {
+        color: white;
+        border-color: var(--sage-dark);
+        background: var(--sage-dark);
+    }
+
+    /* YOUTUBE LEARNING SECTION */
+
+    .ss-youtube-section {
+        padding: 85px 8%;
+        background: var(--cream);
+        border-bottom: 1px solid var(--green-border);
+    }
+
+    .ss-youtube-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .ss-video-card {
+        overflow: hidden;
+        min-width: 0;
+        border: 1px solid var(--green-border);
+        border-radius: 13px;
+        background: var(--white);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .ss-video-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(53, 70, 56, 0.08);
+    }
+
+    .ss-video-frame {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #e6e9df;
+    }
+
+    .ss-video-frame iframe {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .ss-video-info {
+        padding: 23px;
+    }
+
+    .ss-video-category {
+        color: var(--sage);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    .ss-video-info h3 {
+        margin: 10px 0;
+        color: var(--sage-dark);
+        font-family: var(--serif);
+        font-size: 21px;
+        font-weight: 500;
+    }
+
+    .ss-video-info p {
+        margin-bottom: 18px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .ss-video-link {
+        color: var(--sage-dark);
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        border-bottom: 1px solid #b7c6af;
+        padding-bottom: 3px;
+    }
+
+    .ss-video-link:hover {
+        color: var(--sage);
+    }
+
+    .ss-more-resources {
+        margin-top: 38px;
+        text-align: center;
+    }
+
+    /* ABOUT / MOTIVATION SECTION */
+
+    .ss-about-section {
+        padding: 80px 8%;
+        background: #e9eee4;
+        border-bottom: 1px solid var(--green-border);
+    }
+
+    .ss-about-box {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 48px 30px;
+        text-align: center;
+        border: 1px solid #cbd8c4;
+        border-radius: 16px;
+        background: rgba(255, 254, 250, 0.72);
+    }
+
+    .ss-about-decoration {
+        margin-bottom: 12px;
+        color: var(--sage);
+        font-size: 26px;
+    }
+
+    .ss-about-box h2 {
+        margin-bottom: 18px;
+        color: var(--sage-dark);
+        font-family: var(--serif);
+        font-size: clamp(29px, 4vw, 40px);
+        font-weight: 500;
+        line-height: 1.3;
+    }
+
+    .ss-about-box p {
+        max-width: 640px;
+        margin: 0 auto 25px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.9;
+    }
+
+    /* FULL-WIDTH FOOTER */
+
+    .ss-footer {
+        display: block;
+        position: relative;
+        width: 100%;
+        margin: 0 !important;
+        padding: 27px 7%;
+        border-top: 3px solid var(--sage-dark);
+        background: #f3f3eb;
+        text-align: center;
+    }
+
+    .ss-footer p {
+        margin: 0;
+        color: var(--sage-dark);
+        font-family: var(--sans);
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    .ss-footer a {
+        color: var(--sage-dark);
+        text-decoration: none;
+    }
+
+    .ss-footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* RESPONSIVE DESIGN */
+
+    @media (max-width: 950px) {
+        .ss-navbar {
+            padding: 17px 5%;
+        }
+
+        .ss-nav-links {
+            gap: 14px;
+        }
+
+        .ss-hero {
+            gap: 30px;
+            padding: 60px 6%;
+        }
+
+        .ss-hero-image {
+            height: 350px;
+        }
+
+        .ss-feature-grid,
+        .ss-youtube-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .ss-section,
+        .ss-youtube-section,
+        .ss-about-section {
+            padding-left: 6%;
+            padding-right: 6%;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .ss-navbar {
+            position: relative;
+            flex-direction: column;
+            gap: 12px;
+            padding: 18px 5%;
+        }
+
+        .ss-nav-links {
+            justify-content: center;
+            gap: 12px 17px;
+        }
+
+        .ss-nav-links a {
+            font-size: 12px;
+        }
+
+        .ss-hero {
+            grid-template-columns: 1fr;
+            gap: 35px;
+            padding: 48px 6% 55px;
+        }
+
+        .ss-hero h1 {
+            font-size: 43px;
+        }
+
+        .ss-hero-image {
+            height: 320px;
+        }
+
+        .ss-image-caption {
+            right: -5px;
+            bottom: 20px;
+        }
+
+        .ss-feature-grid,
+        .ss-youtube-grid {
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .ss-section,
+        .ss-youtube-section {
+            padding: 55px 6%;
+        }
+
+        .ss-features-section {
+            padding-top: 55px;
+            padding-bottom: 60px;
+        }
+
+        .ss-about-section {
+            padding: 50px 6%;
+        }
+
+        .ss-about-box {
+            padding: 35px 22px;
+        }
+
+        .ss-section-heading {
+            margin-bottom: 30px;
+        }
+    }
+
+    /* REDUCED MOTION ACCESSIBILITY */
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+            transition-duration: 0.01ms !important;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+
+<nav class="ss-navbar">
+    <a href="#home" class="ss-logo">Smart<span>Study.</span></a>
+
+    <ul class="ss-nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="setup.html" class="ss-nav-cta">Study Planner ↗</a></li>
+    </ul>
+</nav>
+
+
+<!-- HERO / WELCOME SECTION -->
+
+<main>
+
+    <section class="ss-hero" id="home">
+
+        <div class="ss-hero-content">
+
+            <p class="ss-eyebrow">A calmer way to learn</p>
+
+            <h1>
+                Study with<br>
+                <span>intention.</span><br>
+                Grow with purpose.
+            </h1>
+
+            <p class="ss-hero-description">
+                Your personal learning companion to organize your
+                schedule, manage daily tasks, stay focused, and
+                make every study session meaningful.
+            </p>
+
+            <a href="setup.html" class="ss-primary-btn">
+                Create My Study Plan <span>↗</span>
+            </a>
+
+            <div class="ss-hero-note">
+                <span>✳</span>
+                A little progress every day adds up.
+            </div>
+
+        </div>
+
+        <div class="ss-hero-image-wrap">
+
+            <img
+                class="ss-hero-image"
+                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1100&q=85"
+                alt="A peaceful laptop workspace for learning"
+                fetchpriority="high"
+            >
+
+            <div class="ss-image-caption">
+                <strong>Your time. Your growth.</strong>
+                <span>Make today a little more meaningful.</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="ss-divider" aria-hidden="true">✳</div>
+
+
+    <!-- SIX MAIN FEATURES — SHOWN ONLY ONCE -->
+
+    <section class="ss-section ss-features-section" id="features">
+
+        <div class="ss-section-heading">
+            <span class="ss-section-label">Your personal study companion</span>
+
+            <h2>Everything You Need to Succeed</h2>
+
+            <p>
+                Thoughtfully designed tools to help you plan better,
+                build consistent habits, and stay on track.
+            </p>
+        </div>
+
+
+        <div class="ss-feature-grid">
+
+            <!-- FEATURE 1 -->
+
+            <article class="ss-feature-card">
+
+                <div class="ss-feature-top">
+                    <div class="ss-feature-icon">📅</div>
+                    <span class="ss-feature-number">01</span>
+                </div>
+
+                <h3>Smart Study Schedule</h3>
+
+                <p>
+                    Create a personalized timetable that fits your
+                    routine and gives every subject its time.
+                </p>
+
+                <a href="setup.html" class="ss-feature-btn">
+                    Create Schedule ↗
+                </a>
+
+            </article>
+
+
+            <!-- FEATURE 2 -->
+
+            <article class="ss-feature-card">
+
+                <div class="ss-feature-top">
+                    <div class="ss-feature-icon">✓</div>
+                    <span class="ss-feature-number">02</span>
+                </div>
+
+                <h3>Daily Task Tracker</h3>
+
+                <p>
+                    Organize assignments, manage daily tasks, and
+                    celebrate each completed goal.
+                </p>
+
+                <a href="tasks.html" class="ss-feature-btn">
+                    Manage Tasks ↗
+                </a>
+
+            </article>
+
+
+            <!-- FEATURE 3 -->
+
+            <article class="ss-feature-card">
+
+                <div class="ss-feature-top">
+                    <div class="ss-feature-icon">📊</div>
+                    <span class="ss-feature-number">03</span>
+                </div>
+
+                <h3>Study Progress Dashboard</h3>
+
+                <p>
+                    Visualize your study progress, review completed
+                    tasks, and keep moving toward your goals.
+                </p>
+
+                <a href="progress.html" class="ss-feature-btn">
+                    View Progress ↗
+                </a>
+
+            </article>
+
+
+            <!-- FEATURE 4 -->
+
+            <article class="ss-feature-card">
+
+                <div class="ss-feature-top">
+                    <div class="ss-feature-icon">⏱</div>
+                    <span class="ss-feature-number">04</span>
+                </div>
+
+                <h3>Pomodoro Study Timer</h3>
+
+                <p>
+                    Build concentration with focused study sessions
+                    and refreshing breaks.
+                </p>
+
+                <a href="pomodoro.html" class="ss-feature-btn">
+                    Start Studying ↗
+                </a>
+
+            </article>
+
+
+            <!-- FEATURE 5 -->
+
+            <article class="ss-feature-card">
+
+                <div class="ss-feature-top">
+                    <div class="ss-feature-icon">✎</div>
+                    <span class="ss-feature-number">05</span>
+                </div>
+
+                <h3>Save My Study Plan</h3>
+
+                <p>
+                    Keep your study plans and topics organized so
+                    you can return to them whenever you need.
+                </p>
+
+                <a href="saved-plans.html" class="ss-feature-btn">
+                    My Study Plans ↗
+                </a>
+
+            </article>
+
+
+            <!-- FEATURE 6 -->
+
+            <article class="ss-feature-card">
+
+                <div class="ss-feature-top">
+                    <div class="ss-feature-icon">✿</div>
+                    <span class="ss-feature-number">06</span>
+                </div>
+
+                <h3>Customize My Space</h3>
+
+                <p>
+                    Personalize your learning experience and create
+                    a calm environment that feels like yours.
+                </p>
+
+                <a href="customize.html" class="ss-feature-btn">
+                    Personalize ↗
+                </a>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- YOUTUBE LEARNING RESOURCES -->
+
+    <section class="ss-youtube-section" id="resources">
+
+        <div class="ss-section-heading">
+
+            <span class="ss-section-label">Your learning corner</span>
+
+            <h2>Learn Something New 🌿</h2>
+
+            <p>
+                Explore useful video tutorials, discover new skills,
+                and learn at your own pace.
+            </p>
+
+        </div>
+
+
+        <div class="ss-youtube-grid">
+
+            <!-- PYTHON VIDEO -->
+
+            <article class="ss-video-card">
+
+                <div class="ss-video-frame">
+
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/rfscVS0vtbw"
+                        title="Python programming for beginners"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+
+                </div>
+
+                <div class="ss-video-info">
+
+                    <span class="ss-video-category">PROGRAMMING</span>
+
+                    <h3>Python for Beginners</h3>
+
+                    <p>
+                        Start with the fundamentals of Python and
+                        build your programming knowledge step by step.
+                    </p>
+
+                    <a
+                        class="ss-video-link"
+                        href="https://www.youtube.com/results?search_query=Python+for+beginners+full+course"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Discover more tutorials ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- HTML AND CSS VIDEO -->
+
+            <article class="ss-video-card">
+
+                <div class="ss-video-frame">
+
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/G3e-cpL7ofc"
+                        title="HTML and CSS web development tutorial"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+
+                </div>
+
+                <div class="ss-video-info">
+
+                    <span class="ss-video-category">WEB DEVELOPMENT</span>
+
+                    <h3>HTML & CSS</h3>
+
+                    <p>
+                        Discover how to build beautiful web pages
+                        using HTML and CSS.
+                    </p>
+
+                    <a
+                        class="ss-video-link"
+                        href="https://www.youtube.com/results?search_query=HTML+CSS+beginner+full+course"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Discover more tutorials ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- DATA ANALYTICS VIDEO -->
+
+            <article class="ss-video-card">
+
+                <div class="ss-video-frame">
+
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/r-uOLxNrNk8"
+                        title="Data analysis with Python tutorial"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+
+                </div>
+
+                <div class="ss-video-info">
+
+                    <span class="ss-video-category">DATA ANALYTICS</span>
+
+                    <h3>Data Analysis with Python</h3>
+
+                    <p>
+                        Explore how Python can help you work with
+                        data, discover patterns, and create insights.
+                    </p>
+
+                    <a
+                        class="ss-video-link"
+                        href="https://www.youtube.com/results?search_query=Python+Pandas+data+analysis+beginner+tutorial"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Discover more tutorials ↗
+                    </a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+        <div class="ss-more-resources">
+
+            <a href="resources.html" class="ss-primary-btn">
+                Explore All Learning Resources ↗
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT AND MOTIVATION SECTION -->
+
+    <section class="ss-about-section" id="about">
+
+        <div class="ss-about-box">
+
+            <div class="ss-about-decoration">✳</div>
+
+            <span class="ss-section-label">A little reminder</span>
+
+            <h2>Small Steps.<br>Beautiful Progress.</h2>
+
+            <p>
+                SmartStudy helps you organize your learning journey,
+                develop consistent study habits, and work toward
+                your academic goals — one focused session at a time.
+            </p>
+
+            <a href="setup.html" class="ss-primary-btn">
+                Begin Your Journey ↗
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- FULL-WIDTH FOOTER -->
+
+<footer class="ss-footer">
+
+    <p>
+        © 2026 Smart Learning Planner ·
+        Designed for Smarter Learning 🌿
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

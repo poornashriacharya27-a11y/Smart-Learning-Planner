@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customize My Space | Smart Learning Planner</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --page-bg: #f8f6ef;
+            --card-bg: #fffef9;
+            --primary: #71866a;
+            --primary-dark: #52694e;
+            --text: #354b38;
+            --muted: #777b70;
+            --border: #e5e5d8;
+        }
+
+        body {
+            margin: 0;
+            background: var(--page-bg);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.theme-pink {
+            --page-bg: #fff3f5;
+            --card-bg: #fffafb;
+            --primary: #c58c9b;
+            --primary-dark: #a76c7d;
+            --text: #684650;
+            --muted: #927780;
+            --border: #f0dce2;
+        }
+
+        body.theme-lavender {
+            --page-bg: #f5f1fc;
+            --card-bg: #fffaff;
+            --primary: #9b8bc2;
+            --primary-dark: #7664a0;
+            --text: #4c4267;
+            --muted: #817795;
+            --border: #e5def2;
+        }
+
+        body.theme-beige {
+            --page-bg: #f6efe5;
+            --card-bg: #fffaf2;
+            --primary: #b49a76;
+            --primary-dark: #8e7554;
+            --text: #574838;
+            --muted: #857865;
+            --border: #e8ddcb;
+        }
+
+        .customize-page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 25px 70px;
+        }
+
+        .back-link {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin: 45px auto;
+            max-width: 700px;
+        }
+
+        .page-header small {
+            letter-spacing: 3px;
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
+
+        .page-header h1 {
+            font-family: Georgia, serif;
+            font-size: 42px;
+            margin: 15px 0;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .welcome-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 35px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(65, 83, 59, 0.04);
+        }
+
+        .welcome-card h2 {
+            font-family: Georgia, serif;
+            font-size: 30px;
+            margin: 0 0 15px;
+        }
+
+        .welcome-card p {
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .quote-preview {
+            margin-top: 20px;
+            font-family: Georgia, serif;
+            font-size: 19px;
+            font-style: italic;
+            line-height: 1.7;
+        }
+
+        .customize-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+        .custom-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 25px rgba(65, 83, 59, 0.04);
+        }
+
+        .custom-card h2 {
+            font-family: Georgia, serif;
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        .custom-card > p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .theme-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .theme-option {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 13px;
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .theme-option.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .swatches {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .swatch {
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 95px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: 2px solid var(--primary);
+        }
+
+        .primary-button {
+            border: none;
+            border-radius: 9px;
+            padding: 14px 20px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .primary-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .full-button {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .mood-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .mood-option {
+            background: var(--page-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 14px 8px;
+            cursor: pointer;
+        }
+
+        .mood-option.selected {
+            border: 2px solid var(--primary);
+        }
+
+        .goal-preview {
+            padding: 20px;
+            background: var(--page-bg);
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .goal-preview strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .message {
+            color: var(--primary-dark);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 35px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 750px) {
+            .customize-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 33px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .customize-page {
+                padding: 25px 15px 50px;
+            }
+
+            .welcome-card,
+            .custom-card {
+                padding: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="customize-page">
+
+        <a href="index.html" class="back-link">
+            ← Back to Home
+        </a>
+
+        <header class="page-header">
+            <small>MAKE IT YOURS</small>
+
+            <h1>Customize My Space 🎨</h1>
+
+            <p>
+                Your goals, your mood, your little corner of motivation.
+                Create a peaceful learning space that feels like you.
+            </p>
+        </header>
+
+        <!-- PERSONALIZED WELCOME -->
+
+        <section class="welcome-card">
+
+            <h2 id="welcomeTitle">Welcome to Your Study Space 🌿</h2>
+
+            <p id="welcomeMessage">
+                Every little step you take brings you closer to your goals.
+            </p>
+
+            <div class="quote-preview" id="quotePreview">
+                "Small steps every day lead to beautiful results."
+            </div>
+
+        </section>
+
+        <section class="customize-grid">
+
+            <!-- THEME SELECTOR -->
+
+            <article class="custom-card">
+
+                <h2>Choose Your Theme 🎨</h2>
+
+                <p>
+                    Pick the colors that make your study space feel calm and inspiring.
+                </p>
+
+                <div class="theme-options">
+
+                    <button class="theme-option selected"
+                        type="button" data-theme="green">
+
+                        <div class="swatches">
+                            <span class="swatch" style="background:#f8f6ef"></span>
+                            <span class="swatch" style="background:#71866a"></span>
+                            <span class="swatch" style="background:#354b38"></span>
+                        </div>
+
+                        <strong>Sage Green</strong>
+
+                    </button>
+
+                    <button class="theme-option"
+                        type="button" data-theme="pink">
+
+                        <div class="swatches">
+                            <span class="swatch" style="background:#fff3f5"></span>
+                            <span class="swatch" style="background:#c58c9b"></span>
+                            <span class="swatch" style="background:#684650"></span>
+                        </div>
+
+                        <strong>Soft Pink</strong>
+
+                    </button>
+
+                    <button class="theme-option"
+                        type="button" data-theme="lavender">
+
+                        <div class="swatches">
+                            <span class="swatch" style="background:#f5f1fc"></span>
+                            <span class="swatch" style="background:#9b8bc2"></span>
+                            <span class="swatch" style="background:#4c4267"></span>
+                        </div>
+
+                        <strong>Lavender Dream</strong>
+
+                    </button>
+
+                    <button class="theme-option"
+                        type="button" data-theme="beige">
+
+                        <div class="swatches">
+                            <span class="swatch" style="background:#f6efe5"></span>
+                            <span class="swatch" style="background:#b49a76"></span>
+                            <span class="swatch" style="background:#574838"></span>
+                        </div>
+
+                        <strong>Warm Beige</strong>
+
+                    </button>
+
+                </div>
+
+            </article>
+
+            <!-- PERSONAL DETAILS -->
+
+            <article class="custom-card">
+
+                <h2>Your Personal Space 🌷</h2>
+
+                <p>
+                    Add your name and a goal to make your welcome message personal.
+                </p>
+
+                <form id="profileForm">
+
+                    <div class="form-group">
+                        <label for="userName">What should we call you?</label>
+
+                        <input
+                            type="text"
+                            id="userName"
+                            maxlength="50"
+                            placeholder="Enter your name"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studyGoal">Your Learning Goal</label>
+
+                        <input
+                            type="text"
+                            id="studyGoal"
+                            maxlength="150"
+                            placeholder="Example: Become a Data Analyst"
+                        >
+                    </div>
+
+                    <button type="submit" class="primary-button full-button">
+                        Save My Profile
+                    </button>
+
+                </form>
+
+            </article>
+
+            <!-- MOTIVATIONAL QUOTE -->
+
+            <article class="custom-card">
+
+                <h2>Your Daily Motivation 💬</h2>
+
+                <p>
+                    Choose a favorite quote or write your own words of encouragement.
+                </p>
+
+                <form id="quoteForm">
+
+                    <div class="form-group">
+                        <label for="quoteSelect">Choose a Quote</label>
+
+                        <select id="quoteSelect">
+                            <option value="Small steps every day lead to beautiful results.">
+                                Small steps, beautiful results
+                            </option>
+
+                            <option value="Believe in your ability to grow.">
+                                Believe in yourself
+                            </option>
+
+                            <option value="Consistency is more powerful than perfection.">
+                                Consistency over perfection
+                            </option>
+
+                            <option value="Your future is created by what you do today.">
+                                Build your future today
+                            </option>
+
+                            <option value="You are capable of amazing things.">
+                                You are capable
+                            </option>
+
+                            <option value="custom">Write my own quote</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="customQuoteGroup" hidden>
+                        <label for="customQuote">Your Quote</label>
+
+                        <textarea
+                            id="customQuote"
+                            maxlength="300"
+                            placeholder="Write something that inspires you..."
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="primary-button full-button">
+                        Save My Quote
+                    </button>
+
+                </form>
+
+            </article>
+
+            <!-- STUDY MOOD -->
+
+            <article class="custom-card">
+
+                <h2>How Are You Feeling Today? 🌱</h2>
+
+                <p>
+                    Choose your current mood. There is no wrong answer.
+                </p>
+
+                <div class="mood-options">
+
+                    <button type="button" class="mood-option" data-mood="focused">
+                        🎯 Focused
+                    </button>
+
+                    <button type="button" class="mood-option" data-mood="motivated">
+                        ✨ Motivated
+                    </button>
+
+                    <button type="button" class="mood-option" data-mood="tired">
+                        ☕ A Little Tired
+                    </button>
+
+                    <button type="button" class="mood-option" data-mood="relaxed">
+                        🌷 Relaxed
+                    </button>
+
+                </div>
+
+                <p id="moodMessage" class="message" aria-live="polite">
+                    Choose the mood that feels right for you.
+                </p>
+
+            </article>
+
+        </section>
+
+        <!-- GOAL SUMMARY -->
+
+        <section class="custom-card" style="margin-top:25px;">
+
+            <h2>Your Learning Journey 🎯</h2>
+
+            <div class="goal-preview">
+
+                <strong>Your current goal</strong>
+
+                <p id="goalPreview">
+                    Your learning goal will appear here.
+                </p>
+
+            </div>
+
+            <p class="message" id="saveMessage" aria-live="polite"></p>
+
+            <button type="button" class="primary-button" id="resetButton">
+                Reset My Preferences
+            </button>
+
+        </section>
+
+        <p class="footer-note">
+            🌿 Create a space that inspires you to keep learning.<br>
+            Your preferences are saved locally in this browser.
+        </p>
+
+    </main>
+
+    <script>
+        const STORAGE_KEY = "smartPlannerCustomizeV1";
+
+        const defaultPreferences = {
+            theme: "green",
+            name: "",
+            goal: "",
+            quote: "Small steps every day lead to beautiful results.",
+            mood: ""
+        };
+
+        function loadPreferences() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+
+                if (!saved) {
+                    return { ...defaultPreferences };
+                }
+
+                const parsed = JSON.parse(saved);
+
+                if (!parsed || typeof parsed !== "object") {
+                    return { ...defaultPreferences };
+                }
+
+                return {
+                    theme: ["green", "pink", "lavender", "beige"].includes(parsed.theme)
+                        ? parsed.theme
+                        : "green",
+
+                    name: typeof parsed.name === "string" ? parsed.name : "",
+
+                    goal: typeof parsed.goal === "string" ? parsed.goal : "",
+
+                    quote: typeof parsed.quote === "string"
+                        ? parsed.quote
+                        : defaultPreferences.quote,
+
+                    mood: ["focused", "motivated", "tired", "relaxed"].includes(parsed.mood)
+                        ? parsed.mood
+                        : ""
+                };
+
+            } catch (error) {
+                console.error("Unable to load preferences:", error);
+                return { ...defaultPreferences };
+            }
+        }
+
+        let preferences = loadPreferences();
+
+        function savePreferences() {
+            try {
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(preferences)
+                );
+
+                return true;
+
+            } catch (error) {
+                document.getElementById("saveMessage").textContent =
+                    "Unable to save preferences. Check your browser storage settings.";
+
+                return false;
+            }
+        }
+
+        const welcomeTitle = document.getElementById("welcomeTitle");
+        const welcomeMessage = document.getElementById("welcomeMessage");
+        const quotePreview = document.getElementById("quotePreview");
+        const goalPreview = document.getElementById("goalPreview");
+        const moodMessage = document.getElementById("moodMessage");
+
+        function renderPreferences() {
+
+            document.body.classList.remove(
+                "theme-pink",
+                "theme-lavender",
+                "theme-beige"
+            );
+
+            if (preferences.theme !== "green") {
+                document.body.classList.add(
+                    "theme-" + preferences.theme
+                );
+            }
+
+            document.querySelectorAll(".theme-option").forEach(button => {
+                const selected = button.dataset.theme === preferences.theme;
+
+                button.classList.toggle("selected", selected);
+                button.setAttribute("aria-pressed", String(selected));
+            });
+
+            document.getElementById("userName").value = preferences.name;
+            document.getElementById("studyGoal").value = preferences.goal;
+
+            const displayName = preferences.name.trim();
+
+            welcomeTitle.textContent = displayName
+                ? `Welcome to Your Study Space, ${displayName} 🌿`
+                : "Welcome to Your Study Space 🌿";
+
+            welcomeMessage.textContent = preferences.goal.trim()
+                ? `Your goal: ${preferences.goal}`
+                : "Every little step you take brings you closer to your goals.";
+
+            quotePreview.textContent = `"${preferences.quote}"`;
+
+            goalPreview.textContent = preferences.goal.trim()
+                ? preferences.goal
+                : "Your learning goal will appear here.";
+
+            document.querySelectorAll(".mood-option").forEach(button => {
+                const selected = button.dataset.mood === preferences.mood;
+
+                button.classList.toggle("selected", selected);
+                button.setAttribute("aria-pressed", String(selected));
+            });
+
+            const moodMessages = {
+                focused: "Amazing! Use that focus to make progress on one task. 🎯",
+                motivated: "Wonderful! Turn that motivation into a small achievement. ✨",
+                tired: "Take a gentle break, drink some water, and return when you're ready. ☕",
+                relaxed: "Enjoy the calm and make steady progress at your own pace. 🌷"
+            };
+
+            moodMessage.textContent = preferences.mood
+                ? moodMessages[preferences.mood]
+                : "Choose the mood that feels right for you.";
+
+            const quoteSelect = document.getElementById("quoteSelect");
+            const customQuoteGroup = document.getElementById("customQuoteGroup");
+            const customQuote = document.getElementById("customQuote");
+
+            const matchingOption = [...quoteSelect.options].find(option =>
+                option.value === preferences.quote
+            );
+
+            if (matchingOption && preferences.quote !== "custom") {
+                quoteSelect.value = preferences.quote;
+                customQuoteGroup.hidden = true;
+                customQuote.value = "";
+            } else {
+                quoteSelect.value = "custom";
+                customQuoteGroup.hidden = false;
+                customQuote.value = preferences.quote;
+            }
+        }
+
+        document.querySelectorAll(".theme-option").forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                preferences.theme = button.dataset.theme;
+
+                if (savePreferences()) {
+                    renderPreferences();
+
+                    document.getElementById("saveMessage").textContent =
+                        "Your theme has been saved! 🎨";
+                }
+            });
+
+        });
+
+        document.getElementById("profileForm").addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                preferences.name = document.getElementById("userName")
+                    .value.trim();
+
+                preferences.goal = document.getElementById("studyGoal")
+                    .value.trim();
+
+                if (savePreferences()) {
+                    renderPreferences();
+
+                    document.getElementById("saveMessage").textContent =
+                        "Your personal profile has been saved! 🌷";
+                }
+
+            }
+        );
+
+        document.getElementById("quoteSelect").addEventListener(
+            "change",
+            function() {
+
+                const isCustom = this.value === "custom";
+
+                document.getElementById("customQuoteGroup").hidden =
+                    !isCustom;
+
+                if (!isCustom) {
+                    document.getElementById("customQuote").value = "";
+                }
+
+            }
+        );
+
+        document.getElementById("quoteForm").addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const selectedQuote =
+                    document.getElementById("quoteSelect").value;
+
+                const quote = selectedQuote === "custom"
+                    ? document.getElementById("customQuote").value.trim()
+                    : selectedQuote;
+
+                if (!quote) {
+                    document.getElementById("saveMessage").textContent =
+                        "Please choose or write a motivational quote.";
+
+                    return;
+                }
+
+                preferences.quote = quote;
+
+                if (savePreferences()) {
+                    renderPreferences();
+
+                    document.getElementById("saveMessage").textContent =
+                        "Your motivational quote has been saved! 💬";
+                }
+
+            }
+        );
+
+        document.querySelectorAll(".mood-option").forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                preferences.mood = button.dataset.mood;
+
+                if (savePreferences()) {
+                    renderPreferences();
+
+                    document.getElementById("saveMessage").textContent =
+                        "Your study mood has been saved! 🌱";
+                }
+
+            });
+
+        });
+
+        document.getElementById("resetButton").addEventListener(
+            "click",
+            function() {
+
+                const confirmed = window.confirm(
+                    "Reset your theme, profile, quote, and mood preferences?"
+                );
+
+                if (!confirmed) return;
+
+                const previousPreferences = preferences;
+
+                preferences = { ...defaultPreferences };
+
+                if (savePreferences()) {
+                    renderPreferences();
+
+                    document.getElementById("saveMessage").textContent =
+                        "Your preferences have been reset.";
+
+                } else {
+                    preferences = previousPreferences;
+                    renderPreferences();
+                }
+
+            }
+        );
+
+        renderPreferences();
+    </script>
+
+</body>
+
+</html>

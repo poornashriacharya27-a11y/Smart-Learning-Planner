@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Learning Resources | Smart Learning Planner</title>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f4ed;
+        color: #34483c;
+        padding: 30px 7%;
+    }
+
+    header {
+        text-align: center;
+        padding: 25px 0 35px;
+    }
+
+    .back-link {
+        display: inline-block;
+        color: #526c59;
+        text-decoration: none;
+        margin-bottom: 25px;
+    }
+
+    header h1 {
+        font-family: Georgia, serif;
+        font-size: 36px;
+        margin-bottom: 12px;
+    }
+
+    header p {
+        color: #737d72;
+        line-height: 1.7;
+    }
+
+    .search-box {
+        max-width: 600px;
+        margin: 0 auto 25px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .search-box input {
+        flex: 1;
+        padding: 14px;
+        border: 1px solid #cbd5c8;
+        border-radius: 10px;
+        font-size: 15px;
+        background: white;
+        min-width: 0;
+    }
+
+    button {
+        cursor: pointer;
+        border: none;
+        border-radius: 10px;
+        background: #526c59;
+        color: white;
+        padding: 12px 18px;
+        font-size: 14px;
+    }
+
+    button:hover {
+        background: #3e5545;
+    }
+
+    .filters {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 35px;
+    }
+
+    .filters button {
+        background: #e3e9df;
+        color: #34483c;
+    }
+
+    .filters button.active,
+    .filters button:hover {
+        background: #526c59;
+        color: white;
+    }
+
+    .section-heading {
+        font-family: Georgia, serif;
+        font-size: 25px;
+        margin-bottom: 20px;
+    }
+
+    .resource-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 22px;
+    }
+
+    .resource-card {
+        background: #fffefa;
+        border: 1px solid #e3e7dd;
+        border-radius: 18px;
+        padding: 25px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .resource-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px #34483c12;
+    }
+
+    .resource-icon {
+        font-size: 35px;
+        margin-bottom: 15px;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #e5eee2;
+        color: #526c59;
+        border-radius: 20px;
+        padding: 6px 10px;
+        font-size: 12px;
+        margin-bottom: 13px;
+    }
+
+    .resource-card h3 {
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+
+    .resource-card p {
+        color: #737d72;
+        font-size: 14px;
+        line-height: 1.6;
+        min-height: 45px;
+        margin-bottom: 18px;
+    }
+
+    .resource-card a {
+        display: inline-block;
+        text-decoration: none;
+        background: #526c59;
+        color: white;
+        padding: 11px 15px;
+        border-radius: 9px;
+        font-size: 14px;
+    }
+
+    .resource-card a:hover {
+        background: #3e5545;
+    }
+
+    .no-results {
+        display: none;
+        text-align: center;
+        padding: 30px;
+        color: #737d72;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 0 10px;
+        color: #737d72;
+        font-size: 13px;
+    }
+
+    @media (max-width: 500px) {
+        body {
+            padding: 20px 5%;
+        }
+
+        header h1 {
+            font-size: 29px;
+        }
+
+        .search-box {
+            flex-direction: column;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+
+<header>
+    <a class="back-link" href="index.html">← Back to Home</a>
+
+    <h1>🎓 Your Learning Library</h1>
+
+    <p>
+        Discover useful YouTube learning resources, explore new skills,
+        and make every study session count.
+    </p>
+</header>
+
+<div class="search-box">
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search Python, HTML, Data Analytics..."
+        aria-label="Search learning resources"
+    >
+    <button onclick="searchResources()">Search</button>
+</div>
+
+<div class="filters">
+    <button class="active" onclick="filterResources('all', this)">All Resources</button>
+    <button onclick="filterResources('programming', this)">Programming</button>
+    <button onclick="filterResources('web', this)">Web Development</button>
+    <button onclick="filterResources('analytics', this)">Data Analytics</button>
+    <button onclick="filterResources('career', this)">Career Skills</button>
+</div>
+
+<h2 class="section-heading">Recommended for You ✨</h2>
+
+<div class="resource-grid" id="resourceGrid">
+
+    <div class="resource-card" data-category="programming">
+        <div class="resource-icon">🐍</div>
+        <span class="tag">Programming</span>
+        <h3>Python for Beginners</h3>
+        <p>Learn Python fundamentals, variables, loops, functions, and more.</p>
+        <a href="https://www.youtube.com/results?search_query=Python+for+beginners+full+course"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+
+    <div class="resource-card" data-category="web">
+        <div class="resource-icon">🌐</div>
+        <span class="tag">Web Development</span>
+        <h3>HTML & CSS</h3>
+        <p>Learn to structure and style attractive websites from scratch.</p>
+        <a href="https://www.youtube.com/results?search_query=HTML+CSS+full+course+for+beginners"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+
+    <div class="resource-card" data-category="web">
+        <div class="resource-icon">⚡</div>
+        <span class="tag">Web Development</span>
+        <h3>JavaScript Basics</h3>
+        <p>Understand variables, functions, events, and interactive websites.</p>
+        <a href="https://www.youtube.com/results?search_query=JavaScript+full+course+for+beginners"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+
+    <div class="resource-card" data-category="analytics">
+        <div class="resource-icon">📊</div>
+        <span class="tag">Data Analytics</span>
+        <h3>Python Data Analysis</h3>
+        <p>Explore Pandas, data cleaning, analysis, and visualization.</p>
+        <a href="https://www.youtube.com/results?search_query=Python+Pandas+Matplotlib+data+analysis+project"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+
+    <div class="resource-card" data-category="analytics">
+        <div class="resource-icon">📈</div>
+        <span class="tag">Data Analytics</span>
+        <h3>Excel for Beginners</h3>
+        <p>Practise spreadsheets, formulas, pivot tables, and charts.</p>
+        <a href="https://www.youtube.com/results?search_query=Microsoft+Excel+full+course+for+beginners"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+
+    <div class="resource-card" data-category="programming">
+        <div class="resource-icon">☕</div>
+        <span class="tag">Programming</span>
+        <h3>Java Programming</h3>
+        <p>Build a foundation in Java syntax, object-oriented programming, and classes.</p>
+        <a href="https://www.youtube.com/results?search_query=Java+programming+full+course+beginners"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+
+    <div class="resource-card" data-category="career">
+        <div class="resource-icon">💼</div>
+        <span class="tag">Career Skills</span>
+        <h3>Interview Preparation</h3>
+        <p>Practise interview questions, communication, and self-introduction.</p>
+        <a href="https://www.youtube.com/results?search_query=fresher+job+interview+preparation"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+
+    <div class="resource-card" data-category="career">
+        <div class="resource-icon">📝</div>
+        <span class="tag">Career Skills</span>
+        <h3>Resume Building</h3>
+        <p>Learn how to create a professional resume as a fresher.</p>
+        <a href="https://www.youtube.com/results?search_query=resume+building+for+freshers"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+
+</div>
+
+<div class="no-results" id="noResults">
+    No matching resources found. Try another keyword.
+</div>
+
+<footer>
+    <p>Made for focused minds and lifelong learners 🌿</p>
+    <p>Smart Learning Planner · Learn at your own pace</p>
+</footer>
+
+<script>
+    let currentCategory = "all";
+
+    function filterResources(category, button) {
+        currentCategory = category;
+
+        document.querySelectorAll(".filters button").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        searchResources();
+    }
+
+    function searchResources() {
+        const searchText = document
+            .getElementById("searchInput")
+            .value.toLowerCase()
+            .trim();
+
+        const cards = document.querySelectorAll(".resource-card");
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            const category = card.dataset.category;
+
+            const matchesSearch = text.includes(searchText);
+            const matchesCategory =
+                currentCategory === "all" ||
+                category === currentCategory;
+
+            if (matchesSearch && matchesCategory) {
+                card.style.display = "block";
+                visibleCount++;
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        document.getElementById("noResults").style.display =
+            visibleCount === 0 ? "block" : "none";
+    }
+
+    document.getElementById("searchInput").addEventListener("input", searchResources);
+</script>
+
+
+</body>
+</html>

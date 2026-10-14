@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Study Plans | Smart Learning Planner</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f6ef;
+            color: #354b38;
+            font-family: Arial, sans-serif;
+        }
+
+        .plans-page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 25px 70px;
+        }
+
+        .back-link {
+            color: #71866a;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .plans-header {
+            text-align: center;
+            margin: 45px auto;
+            max-width: 650px;
+        }
+
+        .plans-header small {
+            color: #71866a;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .plans-header h1 {
+            font-family: Georgia, serif;
+            font-size: 40px;
+            margin: 15px 0;
+        }
+
+        .plans-header p {
+            color: #777b70;
+            line-height: 1.8;
+        }
+
+        .plans-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .plan-card {
+            background: #fffef9;
+            border: 1px solid #e5e5d8;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 25px rgba(65, 83, 59, 0.05);
+        }
+
+        .plan-card h2 {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d9dfd0;
+            border-radius: 9px;
+            background: #fff;
+            color: #354b38;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: 2px solid #a8b79d;
+            border-color: #71866a;
+        }
+
+        .primary-button {
+            width: 100%;
+            padding: 14px;
+            background: #71866a;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .primary-button:hover {
+            background: #52694e;
+        }
+
+        .saved-plan {
+            background: #f8f6ef;
+            border: 1px solid #e5e5d8;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .saved-plan h3 {
+            margin: 0 0 12px;
+            font-family: Georgia, serif;
+            font-size: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        .plan-detail {
+            color: #777b70;
+            font-size: 14px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .plan-notes {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .plan-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .plan-actions button {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .edit-button {
+            background: #71866a;
+            color: white;
+        }
+
+        .delete-button {
+            background: #eee5df;
+            color: #805448;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #85897e;
+            padding: 35px 10px;
+            line-height: 1.8;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #85897e;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 750px) {
+            .plans-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .plans-header h1 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .plans-page {
+                padding: 25px 15px 50px;
+            }
+
+            .plan-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="plans-page">
+
+        <a href="index.html" class="back-link">
+            ← Back to Home
+        </a>
+
+        <header class="plans-header">
+
+            <small>PLAN • LEARN • GROW</small>
+
+            <h1>My Study Plans 🌿</h1>
+
+            <p>
+                Turn your learning goals into a simple daily routine.
+                Create your plan, save your ideas, and take one step
+                closer to your dreams every day.
+            </p>
+
+        </header>
+
+        <section class="plans-layout">
+
+            <!-- CREATE STUDY PLAN -->
+
+            <div class="plan-card">
+
+                <h2 id="formHeading">Create a Study Plan ✨</h2>
+
+                <form id="studyPlanForm">
+
+                    <div class="form-group">
+
+                        <label for="planTitle">Study Plan Name</label>
+
+                        <input
+                            type="text"
+                            id="planTitle"
+                            placeholder="Example: Python Learning Plan"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="subject">Subject</label>
+
+                        <input
+                            type="text"
+                            id="subject"
+                            placeholder="Example: Python, Java, SQL"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="studyDate">Study Date</label>
+
+                        <input
+                            type="date"
+                            id="studyDate"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="studyHours">Planned Study Hours</label>
+
+                        <select id="studyHours" required>
+                            <option value="0.5">30 minutes</option>
+                            <option value="1">1 hour</option>
+                            <option value="1.5">1.5 hours</option>
+                            <option value="2" selected>2 hours</option>
+                            <option value="3">3 hours</option>
+                            <option value="4">4 hours</option>
+                            <option value="5">5 hours</option>
+                            <option value="6">6 hours</option>
+                            <option value="8">8 hours</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="topics">Topics to Complete</label>
+
+                        <textarea
+                            id="topics"
+                            placeholder="Example:&#10;1. Python basics&#10;2. Functions&#10;3. Practice exercises"
+                            maxlength="2000"
+                            required
+                        ></textarea>
+
+                    </div>
+
+                    <button type="submit" class="primary-button" id="saveButton">
+                        💾 Save Study Plan
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancelEditButton"
+                        class="primary-button"
+                        style="display: none; margin-top: 10px; background: #e9e9dc; color: #354b38;"
+                    >
+                        Cancel Editing
+                    </button>
+
+                    <p id="formMessage" class="message" aria-live="polite"></p>
+
+                </form>
+
+            </div>
+
+            <!-- SAVED PLANS -->
+
+            <div class="plan-card">
+
+                <h2>Your Saved Plans 📚</h2>
+
+                <p class="plan-detail">
+                    Your learning journey, organized in one peaceful space.
+                </p>
+
+                <div id="savedPlansList" aria-live="polite"></div>
+
+            </div>
+
+        </section>
+
+        <p class="footer-note">
+            🌱 Consistency matters more than perfection.<br>
+            Your study plans are saved in this browser on this device.
+        </p>
+
+    </main>
+
+    <script>
+        const STORAGE_KEY = "smartPlannerSavedPlansV1";
+
+        const form = document.getElementById("studyPlanForm");
+        const savedPlansList = document.getElementById("savedPlansList");
+        const formMessage = document.getElementById("formMessage");
+
+        const saveButton = document.getElementById("saveButton");
+        const cancelEditButton = document.getElementById("cancelEditButton");
+        const formHeading = document.getElementById("formHeading");
+
+        let editingId = null;
+        let plans = loadPlans();
+
+        function loadPlans() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+
+                if (!stored) return [];
+
+                const parsed = JSON.parse(stored);
+
+                if (!Array.isArray(parsed)) return [];
+
+                return parsed.filter(plan =>
+                    plan &&
+                    typeof plan.id === "string" &&
+                    typeof plan.title === "string" &&
+                    typeof plan.subject === "string" &&
+                    typeof plan.date === "string" &&
+                    typeof plan.topics === "string"
+                );
+            } catch (error) {
+                console.error("Could not load study plans:", error);
+                return [];
+            }
+        }
+
+        function savePlans() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(plans));
+                return true;
+            } catch (error) {
+                formMessage.textContent =
+                    "Unable to save. Check your browser storage settings.";
+                formMessage.style.color = "#a34f40";
+                return false;
+            }
+        }
+
+        function createId() {
+            if (window.crypto && typeof window.crypto.randomUUID === "function") {
+                return window.crypto.randomUUID();
+            }
+
+            return Date.now().toString(36) +
+                Math.random().toString(36).slice(2);
+        }
+
+        function setDefaultDate() {
+            const now = new Date();
+
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            const day = String(now.getDate()).padStart(2, "0");
+
+            document.getElementById("studyDate").value =
+                `${year}-${month}-${day}`;
+        }
+
+        function resetForm() {
+            form.reset();
+            editingId = null;
+
+            setDefaultDate();
+
+            formHeading.textContent = "Create a Study Plan ✨";
+            saveButton.textContent = "💾 Save Study Plan";
+            cancelEditButton.style.display = "none";
+
+            formMessage.textContent = "";
+        }
+
+        function addTextElement(parent, tag, className, text) {
+            const element = document.createElement(tag);
+
+            if (className) {
+                element.className = className;
+            }
+
+            element.textContent = text;
+            parent.appendChild(element);
+
+            return element;
+        }
+
+        function renderPlans() {
+            savedPlansList.replaceChildren();
+
+            if (plans.length === 0) {
+                addTextElement(
+                    savedPlansList,
+                    "div",
+                    "empty-state",
+                    "No study plans saved yet. 🌷\nCreate your first plan to get started!"
+                );
+
+                return;
+            }
+
+            const sortedPlans = [...plans].sort((a, b) =>
+                a.date.localeCompare(b.date)
+            );
+
+            sortedPlans.forEach(plan => {
+                const card = document.createElement("article");
+                card.className = "saved-plan";
+
+                addTextElement(card, "h3", "", plan.title);
+
+                addTextElement(
+                    card,
+                    "p",
+                    "plan-detail",
+                    "📚 Subject: " + plan.subject
+                );
+
+                addTextElement(
+                    card,
+                    "p",
+                    "plan-detail",
+                    "📅 Date: " + plan.date
+                );
+
+                addTextElement(
+                    card,
+                    "p",
+                    "plan-detail",
+                    "⏰ Planned time: " + plan.hours + " hour(s)"
+                );
+
+                addTextElement(
+                    card,
+                    "p",
+                    "plan-detail",
+                    "📝 Topics:"
+                );
+
+                addTextElement(
+                    card,
+                    "p",
+                    "plan-detail plan-notes",
+                    plan.topics
+                );
+
+                const actions = document.createElement("div");
+                actions.className = "plan-actions";
+
+                const editButton = document.createElement("button");
+                editButton.type = "button";
+                editButton.className = "edit-button";
+                editButton.textContent = "Edit";
+
+                editButton.addEventListener("click", () => {
+                    editPlan(plan.id);
+                });
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "delete-button";
+                deleteButton.textContent = "Delete";
+
+                deleteButton.addEventListener("click", () => {
+                    deletePlan(plan.id);
+                });
+
+                actions.append(editButton, deleteButton);
+                card.appendChild(actions);
+
+                savedPlansList.appendChild(card);
+            });
+        }
+
+        function editPlan(id) {
+            const plan = plans.find(item => item.id === id);
+
+            if (!plan) return;
+
+            editingId = id;
+
+            document.getElementById("planTitle").value = plan.title;
+            document.getElementById("subject").value = plan.subject;
+            document.getElementById("studyDate").value = plan.date;
+            document.getElementById("studyHours").value = String(plan.hours);
+            document.getElementById("topics").value = plan.topics;
+
+            formHeading.textContent = "Edit Your Study Plan ✏️";
+            saveButton.textContent = "Update Study Plan";
+            cancelEditButton.style.display = "block";
+
+            formMessage.textContent = "Make your changes and save.";
+            formMessage.style.color = "#52694e";
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        function deletePlan(id) {
+            const confirmed = window.confirm(
+                "Are you sure you want to delete this study plan?"
+            );
+
+            if (!confirmed) return;
+
+            plans = plans.filter(plan => plan.id !== id);
+
+            if (!savePlans()) return;
+
+            if (editingId === id) {
+                resetForm();
+            }
+
+            renderPlans();
+        }
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById("planTitle")
+                .value.trim();
+
+            const subject = document.getElementById("subject")
+                .value.trim();
+
+            const date = document.getElementById("studyDate").value;
+
+            const hours = Number(
+                document.getElementById("studyHours").value
+            );
+
+            const topics = document.getElementById("topics")
+                .value.trim();
+
+            if (!title || !subject || !date || !topics) {
+                formMessage.textContent =
+                    "Please complete all fields before saving.";
+                formMessage.style.color = "#a34f40";
+                return;
+            }
+
+            const planData = {
+                id: editingId || createId(),
+                title,
+                subject,
+                date,
+                hours,
+                topics
+            };
+
+            const previousPlans = plans;
+
+            if (editingId) {
+                plans = plans.map(plan =>
+                    plan.id === editingId ? planData : plan
+                );
+            } else {
+                plans.push(planData);
+            }
+
+            if (!savePlans()) {
+                plans = previousPlans;
+                return;
+            }
+
+            const message = editingId
+                ? "Your study plan has been updated successfully! 🌷"
+                : "Your study plan has been saved successfully! 🌿";
+
+            resetForm();
+
+            formMessage.textContent = message;
+            formMessage.style.color = "#52694e";
+
+            renderPlans();
+        });
+
+        cancelEditButton.addEventListener("click", resetForm);
+
+        setDefaultDate();
+        renderPlans();
+    </script>
+
+</body>
+
+</html>

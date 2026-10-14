@@ -1,0 +1,355 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pomodoro Study Timer | Smart Learning Planner</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .pomodoro-page {
+            min-height: 100vh;
+            padding: 45px 20px 70px;
+            background: #f8f6ef;
+            color: #354b38;
+            font-family: Georgia, serif;
+        }
+
+        .timer-container {
+            max-width: 650px;
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        .timer-container h1 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .timer-description {
+            color: #777b70;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .timer-card {
+            background: #fffef9;
+            padding: 40px 25px;
+            border: 1px solid #e5e5d8;
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(65, 83, 59, 0.08);
+        }
+
+        .timer-modes {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .timer-mode {
+            border: 1px solid #d9dfd0;
+            background: #f4f3e9;
+            color: #52664d;
+            padding: 11px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .timer-mode.active {
+            background: #71866a;
+            color: white;
+        }
+
+        .timer-display {
+            font-size: clamp(65px, 12vw, 95px);
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin: 25px 0 10px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-status {
+            color: #71866a;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .timer-button {
+            padding: 13px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .start-button {
+            background: #71866a;
+            color: white;
+        }
+
+        .reset-button {
+            background: #e9e9dc;
+            color: #354b38;
+        }
+
+        .timer-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .session-info {
+            margin-top: 28px;
+            padding: 17px;
+            background: #f3f1e7;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .timer-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #52664d;
+            text-decoration: none;
+        }
+
+        @media (max-width: 500px) {
+            .timer-container h1 {
+                font-size: 30px;
+            }
+
+            .timer-card {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="pomodoro-page">
+
+        <div class="timer-container">
+
+            <a href="index.html" class="timer-back">← Back to Home</a>
+
+            <p>YOUR LITTLE SPACE OF FOCUS</p>
+
+            <h1>Pomodoro Study Timer</h1>
+
+            <p class="timer-description">
+                Slow down, breathe, and focus on one thing at a time.
+                Small steps create beautiful progress.
+            </p>
+
+            <section class="timer-card">
+
+                <div class="timer-modes">
+                    <button class="timer-mode active" data-mode="study">
+                        Study
+                    </button>
+
+                    <button class="timer-mode" data-mode="short">
+                        Short Break
+                    </button>
+
+                    <button class="timer-mode" data-mode="long">
+                        Long Break
+                    </button>
+                </div>
+
+                <div class="timer-display" id="timerDisplay">
+                    25:00
+                </div>
+
+                <p class="timer-status" id="timerStatus" aria-live="polite">
+                    Ready for a focused session? 🌿
+                </p>
+
+                <div class="timer-controls">
+                    <button class="timer-button start-button" id="startButton">
+                        Start Focus
+                    </button>
+
+                    <button class="timer-button reset-button" id="resetButton">
+                        Reset
+                    </button>
+                </div>
+
+                <div class="session-info">
+                    <strong>Today's focus</strong>
+                    <p>
+                        Completed study sessions:
+                        <span id="sessionCount">0</span>
+                    </p>
+
+                    <p>🌱 One session at a time. You've got this!</p>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <script>
+        const timerDisplay = document.getElementById("timerDisplay");
+        const timerStatus = document.getElementById("timerStatus");
+        const startButton = document.getElementById("startButton");
+        const resetButton = document.getElementById("resetButton");
+        const sessionCount = document.getElementById("sessionCount");
+        const modeButtons = document.querySelectorAll(".timer-mode");
+
+        const durations = {
+            study: 25 * 60,
+            short: 5 * 60,
+            long: 15 * 60
+        };
+
+        let currentMode = "study";
+        let remainingSeconds = durations[currentMode];
+        let timerInterval = null;
+        let endTime = null;
+        let completedSessions = 0;
+
+        function updateDisplay() {
+            const minutes = Math.floor(remainingSeconds / 60);
+            const seconds = remainingSeconds % 60;
+
+            timerDisplay.textContent =
+                String(minutes).padStart(2, "0") + ":" +
+                String(seconds).padStart(2, "0");
+        }
+
+        function updateStatus() {
+            const messages = {
+                study: "Time to focus on your goals 🌿",
+                short: "Take a breath and relax ☕",
+                long: "Enjoy a longer, refreshing break 🌷"
+            };
+
+            timerStatus.textContent = messages[currentMode];
+        }
+
+        function selectMode(mode) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            endTime = null;
+
+            currentMode = mode;
+            remainingSeconds = durations[mode];
+
+            modeButtons.forEach(button => {
+                button.classList.toggle(
+                    "active",
+                    button.dataset.mode === mode
+                );
+            });
+
+            startButton.textContent = "Start Focus";
+
+            updateDisplay();
+            updateStatus();
+        }
+
+        function finishSession() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            endTime = null;
+            remainingSeconds = 0;
+
+            updateDisplay();
+
+            if (currentMode === "study") {
+                completedSessions++;
+                sessionCount.textContent = completedSessions;
+
+                timerStatus.textContent =
+                    "Beautiful work! Your study session is complete 🌸";
+
+                selectMode("short");
+                timerStatus.textContent =
+                    "Study session complete! Time for a short break ☕";
+            } else {
+                timerStatus.textContent =
+                    "Your break is complete. Ready for another session? 🌿";
+
+                selectMode("study");
+                timerStatus.textContent =
+                    "Break complete! Ready to focus again? 🌿";
+            }
+
+            startButton.textContent = "Start Focus";
+        }
+
+        function tick() {
+            remainingSeconds = Math.max(
+                0,
+                Math.ceil((endTime - Date.now()) / 1000)
+            );
+
+            updateDisplay();
+
+            if (remainingSeconds <= 0) {
+                finishSession();
+            }
+        }
+
+        startButton.addEventListener("click", () => {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                endTime = null;
+
+                startButton.textContent = "Resume Focus";
+                timerStatus.textContent = "Timer paused. Take your time 🌿";
+                return;
+            }
+
+            endTime = Date.now() + remainingSeconds * 1000;
+
+            startButton.textContent = "Pause";
+            timerStatus.textContent = "You're doing great. Keep going! 🌱";
+
+            timerInterval = setInterval(tick, 250);
+        });
+
+        resetButton.addEventListener("click", () => {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            endTime = null;
+
+            remainingSeconds = durations[currentMode];
+
+            startButton.textContent = "Start Focus";
+
+            updateDisplay();
+            updateStatus();
+        });
+
+        modeButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                selectMode(button.dataset.mode);
+            });
+        });
+
+        updateDisplay();
+    </script>
+
+</body>
+</html>
+```

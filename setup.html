@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Planner | Smart Learning Planner</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <h1>Smart Learning Planner 🌿</h1>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+
+    <!-- Study Setup Section -->
+    <section class="setup-section">
+
+        <div class="setup-container">
+
+            <h1>Create Your Study Plan</h1>
+
+            <p>
+                Tell us about your exams and study preferences.
+                We'll help you create a personalized study timetable.
+            </p>
+
+            <!-- Study Form -->
+            <form id="studyForm">
+
+                <!-- Exam Date -->
+                <div class="form-group">
+                    <label for="examDate">Your Examination Date</label>
+
+                    <input
+                        type="date"
+                        id="examDate"
+                        name="examDate"
+                        required
+                    >
+                </div>
+
+                <!-- Subjects -->
+                <div class="form-group">
+                    <label for="subjects">
+                        Subjects You Want to Study
+                    </label>
+
+                    <input
+                        type="text"
+                        id="subjects"
+                        name="subjects"
+                        placeholder="Example: Java, Python, DBMS"
+                        required
+                    >
+
+                    <small>Separate each subject with a comma.</small>
+                </div>
+
+                <!-- Difficult Subject -->
+                <div class="form-group">
+                    <label for="weakSubject">
+                        Your Most Difficult Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        id="weakSubject"
+                        name="weakSubject"
+                        placeholder="Example: Java"
+                        required
+                    >
+                </div>
+
+                <!-- Study Start Time -->
+                <div class="form-group">
+                    <label for="startTime">
+                        When Do You Want to Start Studying?
+                    </label>
+
+                    <input
+                        type="time"
+                        id="startTime"
+                        name="startTime"
+                        value="18:00"
+                        required
+                    >
+                </div>
+
+                <!-- Daily Study Hours -->
+                <div class="form-group">
+                    <label for="studyHours">
+                        How Many Hours Can You Study Daily?
+                    </label>
+
+                    <select
+                        id="studyHours"
+                        name="studyHours"
+                        required
+                    >
+                        <option value="">Select study hours</option>
+                        <option value="1">1 Hour</option>
+                        <option value="2">2 Hours</option>
+                        <option value="3">3 Hours</option>
+                        <option value="4">4 Hours</option>
+                        <option value="5">5 Hours</option>
+                        <option value="6">6 Hours</option>
+                        <option value="7">7 Hours</option>
+                        <option value="8">8 Hours</option>
+                    </select>
+                </div>
+
+                <!-- Study Goal -->
+                <div class="form-group">
+                    <label for="studyGoal">
+                        What Is Your Study Goal?
+                    </label>
+
+                    <select
+                        id="studyGoal"
+                        name="studyGoal"
+                        required
+                    >
+                        <option value="">Select your goal</option>
+                        <option value="pass">Pass the Examination</option>
+                        <option value="75">Score Above 75%</option>
+                        <option value="85">Score Above 85%</option>
+                        <option value="95">Score Above 95%</option>
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="start-button">
+                    Create My Study Plan →
+                </button>
+
+            </form>
+
+            <!-- Generated Timetable Appears Here -->
+            <div id="formMessage" aria-live="polite"></div>
+
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with care for your learning journey 🌱</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+
+</body>
+</html>
